@@ -1,0 +1,27 @@
+
+
+
+
+html, body {
+	margin:0;
+	padding:0;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	font-family: 'Assistant', sans-serif;
+}
+
+#map {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100vh;
+}
+
+
+
+
+
+
+
+ 
