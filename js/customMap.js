@@ -8,6 +8,91 @@ var katieshieldsshowroom = (function () {
 		});
 	};
 	
+	
+	
+	
+	
+	
+	var AIRTABLE = AIRTABLE || {};
+	//https://api.airtable.com
+	//"https://api.airtable.com/v0/appI99pTdQ65gXGFr/tblNzlhxuKCo39dTgd05";
+	AIRTABLE.baseURL = "https://api.airtable.com/v0/appjsGfiMIXTsey7d";
+
+	
+	AIRTABLE.auth = AIRTABLE.auth || {};
+	AIRTABLE.auth.enabled = AIRTABLE.auth.enabled || false;
+	//keygkiPVOSbRk6vll
+	AIRTABLE.auth.token = "keyLWYCJzvsqf5nwR";
+
+	var setAuthHeader = function(xhr) {
+    	xhr.setRequestHeader("Authorization", "Bearer " + AIRTABLE.auth.token);
+	};
+
+	var sendAjaxRequest = function(endpoint, method, parameters, requiresAuth, onComplete) {
+    	var contentType = "";
+    	if(method === 'POST' || method === 'PUT' || method === 'PATCH') {
+        	contentType = "application/json";
+    	}
+    	var beforeSend = function() {};
+    	if(AIRTABLE.auth.enabled && requiresAuth) {
+        	beforeSend = setAuthHeader;
+    	}
+    	var req = $.ajax({
+        	url: AIRTABLE.baseURL + endpoint,
+        	type: method,
+        	dataType: 'json',
+        	data : parameters,
+        	contentType: contentType,
+        	beforeSend: beforeSend,
+    	});
+    	req.always(onComplete);
+	};
+
+	/* Send a raw api request on an endpoint.
+ 	*/
+	AIRTABLE.api = function(endpoint, method, parameters, callback) {
+    	sendAjaxRequest(endpoint, method, parameters, true, function(jqXHR, textResponse) {
+        	var response = {};
+        	if(textResponse != 'success') {
+            	response.error = { 'HTTPCode' : jqXHR.status };
+            	try {
+                	var errorJSON = JSON.parse(jqXHR.responseText);
+                	$.extend(response.error, errorJSON);
+            	} catch(e) {
+           	 }
+        	} else {
+            	response = jqXHR;
+        	}
+        	if(callback) {
+            	callback(response);
+        	}
+    	});
+	};
+	
+	AIRTABLE.account = AIRTABLE.account || {};
+	
+	AIRTABLE.account.ApplicantTracking = function(callback) {
+    	AIRTABLE.api("/Applicants", 'GET', {api_key: "keyLWYCJzvsqf5nwR"}, callback);
+	};
+	
+	// list specific account details
+	function getAccount() {
+		AIRTABLE.account.ApplicantTracking(function(response) {
+			console.log(response);
+		});
+	};
+	
+	getAccount();
+	
+	/*
+	Here is what I did: (Maybe it is useful for others)
+url = "https://api.airtable.com/v0/appI99pTdQ65gXGFr/tblNzlhxuKCo39dTgd05"
+querystring = {“fields[]”:[“short_property”,“unit”,“ref”,“short_name_unique_id”]}
+headers = {‘authorization’: “Bearer [you need to add your own key here]” }
+response = requests.request(“GET”, url, headers=headers, params=querystring)
+return {‘Test’: 1234, ‘JsonString’: response.text}
+*/
+	
 	return {
 		initMap: initMap
 	};
