@@ -74,14 +74,10 @@ var katieshieldsshowroom = (function () {
 	AIRTABLE.account = AIRTABLE.account || {};
 	
 	AIRTABLE.account.ApplicantTracking = function(callback) {
-    	AIRTABLE.api("/ALL%20ACCOUNTS%20&%20PROSPECTS", 'GET', {api_key: "keygkiPVOSbRk6vll"}, callback);
+    	AIRTABLE.api("/ALL%20ACCOUNTS%20&%20PROSPECTS", 'GET', {api_key: "keygkiPVOSbRk6vll", maxRecords: 200}, callback);
     	//https://api.airtable.com/v0/app5oElIgAfd3YE1U/tblZ0iLBcKVOf7cLp?maxRecords=28
     	//$ curl https://api.airtable.com/v0/app5oElIgAfd3YE1U/ALL%20ACCOUNTS%20&amp;%20PROSPECTS?api_key=YOUR_API_KEY
     	//$ curl "https://api.airtable.com/v0/app5oElIgAfd3YE1U/ALL%20ACCOUNTS%20%26%20PROSPECTS?maxRecords=3&view=ALL%20ACCOUNTS%20%26%20PROSPECTS" \
-	};
-	
-	AIRTABLE.account.ApplicantTracking2 = function(callback) {
-		AIRTABLE.api("/ALL%20ACCOUNTS", "GET", {api_key: "keygkiPVOSbRk6vll", maxRecords: 200}, callback);
 	};
 	
 	// list specific account details
