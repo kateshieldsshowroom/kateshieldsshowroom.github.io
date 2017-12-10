@@ -77,12 +77,22 @@ var katieshieldsshowroom = (function () {
     	AIRTABLE.api("/ALL%20ACCOUNTS%20&%20PROSPECTS", 'GET', {api_key: "keygkiPVOSbRk6vll"}, callback);
 	};
 	
+	AIRTABLE.account.ApplicantTracking2 = function(callback) {
+		AIRTABLE.api("/ALL%20ACCOUNTS", "GET", {api_key: "keygkiPVOSbRk6vll"}, callback);
+	};
+	
 	// list specific account details
 	function getAccount() {
 		AIRTABLE.account.ApplicantTracking(function(response) {
-			console.log(response);
+			var l = response.records.length;
+			var i;
+			for (i=0; i < l; i++) {
+				console.log(i)
+				console.log(response.records[i].fields["STORE NAME"]);
+			}
 		});
 	};
+	
 	
 	getAccount();
 	
